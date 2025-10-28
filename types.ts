@@ -1,21 +1,3 @@
-
-export interface Medicine {
-    id: number;
-    name: string;
-    genericName: string;
-    stock: number;
-    price: number;
-    lastUpdated: string;
-}
-
-export interface Rider {
-    id: number;
-    name: string;
-    phone: string;
-    workingHours: string;
-    status: 'available' | 'busy';
-}
-
 export interface Pharmacy {
     id: number;
     name: string;
@@ -24,55 +6,68 @@ export interface Pharmacy {
     isOpen: boolean;
     onDuty: boolean;
     hours: string;
-    onCallHours?: string;
-    location: { lat: number; lng: number };
-    medicines: Medicine[];
+    lat: number;
+    lng: number;
     deliveryAvailable: boolean;
-    delivery?: {
-        cost: number;
-        time: number; // in minutes
-        riders: Rider[];
-    };
+    deliveryTime: number; // in minutes
+    deliveryCost: number;
     acceptsMobileMoney: boolean;
+    lastUpdated: string;
+    riders: Rider[];
+    isAvailable?: boolean;
+    price?: number;
+    stock?: number;
+    distance?: number;
+    cartTotal?: number;
+    isFulfillable?: boolean;
 }
+
+export interface Medicine {
+    id: number;
+    pharmacyId: number;
+    name: string;
+    genericName: string;
+    brandName?: string;
+    category: string;
+    price: number;
+    stock: number;
+}
+
+export interface Rider {
+    id: number;
+    name: string;
+    phone: string;
+    workingHours: string;
+}
+
+export interface Filters {
+    openNow: boolean;
+    onDuty: boolean;
+    delivery: boolean;
+    mobileMoney: boolean;
+}
+
+export type SortOption = 'price' | 'distance' | 'delivery';
 
 export interface UserLocation {
     lat: number;
     lng: number;
 }
 
-export interface FilterOptions {
-    openNow: boolean;
-    onDuty: boolean;
-    deliveryAvailable: boolean;
-    acceptsMobileMoney: boolean;
-}
-
-export type SortOption = 'distance' | 'price' | 'delivery';
-
-export type AppTab = 'all' | 'onDuty' | 'orders' | 'favorites';
-
-export type PaymentMethod = 'Mobile Money' | 'Visa' | 'Mastercard';
-
-export type OrderStatus = 'confirmed' | 'prepared' | 'out for delivery' | 'delivered';
-
-export interface CartItem {
+export interface OrderItem {
     medicine: Medicine;
     quantity: number;
 }
 
 export interface Order {
-    id: string;
-    pharmacyName: string;
-    items: CartItem[];
-    totalAmount: number;
-    paymentMethod: PaymentMethod;
+    id: number;
+    pharmacy: Pharmacy;
+    items: OrderItem[];
+    total: number;
+    status: 'pending' | 'confirmed' | 'prepared' | 'delivery' | 'delivered';
     date: string;
-    transactionId: string;
-    status: OrderStatus;
-    deliveryInfo?: {
-        rider: Rider;
-        cost: number;
-        estimatedTime: number;
-    };
+    rider: Rider | null;
+    paymentMethod?: 'Mobile Money' | 'Visa' | 'Mastercard';
+    transactionId?: string;
+    userLocation?: UserLocation | null;
 }

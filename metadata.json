@@ -1,6 +1,6 @@
 {
   "name": "PharmaNow",
-  "description": "PharmaNow helps you easily find open pharmacies, check medicine availability, compare prices, and order for home delivery. It features smart search, an interactive map, on-duty pharmacy listings, integrated payments, and order tracking all in one place.",
+  "description": "An application to help users find open pharmacies, check medicine availability, compare prices, and order for home delivery.",
   "requestFramePermissions": [
     "geolocation"
   ]
